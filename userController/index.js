@@ -9,6 +9,7 @@ module.exports = {
   // save data to mongodb
   // return response to the client
   registerUser: async (req, res) => {
+    
     const userModel = new UserModel(req.body);
     userModel.password = await bcrypt.hash(req.body.password, 10);
 
@@ -25,11 +26,13 @@ module.exports = {
   // create jwt token
   // send response to client
   loginUser: async (req, res) => {
+    console.log("==============",req.body)
     try {
+      
       const user = await UserModel.findOne({ email: req.body.email });
       if (!user) {
         return res
-          .status(401)
+          .status(200)
           .json({ message: "Auth failed, Invalid username/password" });
       }
       const isPassEqual = await bcrypt.compare(
@@ -38,7 +41,7 @@ module.exports = {
       );
       if (!isPassEqual) {
         return res
-          .status(401)
+          .status(200)
           .json({ message: "Auth failed, Invalid username/password" });
       }
       const tokenObject = {
@@ -49,7 +52,7 @@ module.exports = {
       const jwttoken = jwt.sign(tokenObject, process.env.SECRET, {
         expiresIn: "4h",
       });
-      return res.status(200).json({ jwttoken, tokenObject });
+      return res.status(200).json({  message: "success", data: jwttoken  });
     } catch (error) {
       return res.status(500).json({ message: "error", error });
     }

@@ -12,7 +12,7 @@ const userRegisterValidate = ( req,res,next )=>{
     if(error){
         const errorMessage = error.details.map(detail => detail.message).join(', ')
         console.log(errorMessage)
-        return res.status(400).json({message:"Bad Request", errorMessage})
+        return res.status(400).json({message:errorMessage, errorMessage})
     }
     next();
 }
@@ -27,7 +27,7 @@ const userLoginValidate = (req,res,next) =>{
     const {error,value} = schema.validate(req.body);
     if(error){
         const errorMessage = error.details.map(detail => detail.message).join(', ');
-        return res.status(422).json({message:"Bad Request", errorMessage})
+        return res.status(422).json({message:errorMessage, errorMessage})
     }
     next();
 }

@@ -20,8 +20,12 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    refreshToken: { 
+    refreshToken:{ 
         type: String 
+    },
+    is_verified:{
+        type: Boolean,
+        default: false
     }
 })
 
